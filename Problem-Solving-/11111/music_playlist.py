@@ -83,11 +83,7 @@ class MusicPlaylist:
 
     def get_length(self):
         return self.length
-    def reset_playlist(self):
-        self.head = None
-        self.current_song = None
-        self.length = 0
-        
+    
 
     def delete_song(self, title):
         if self.head is None:
@@ -178,12 +174,6 @@ if uploaded_file is not None and not st.session_state.uploaded_once:
             )
 
     st.session_state.uploaded_once = True
-
-st.sidebar.markdown("--- 🎶")
-if st.sidebar.button("🔄 Reset Playlist"):
-    st.session_state.playlist.reset_playlist()
-    st.session_state.uploaded_once = False
-    st.sidebar.success("Playlist has been reset.")
 
 # Main content for playlist display and controls
 st.header("Your Current Playlist")
