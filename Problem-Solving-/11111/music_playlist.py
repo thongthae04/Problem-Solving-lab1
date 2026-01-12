@@ -83,7 +83,6 @@ class MusicPlaylist:
 
     def get_length(self):
         return self.length
-    
 
     def delete_song(self, title):
         if self.head is None:
@@ -149,7 +148,7 @@ if uploaded_file is not None:
     # Read the file line by line
     # Sidebar for uploading song list file
     st.sidebar.markdown("--- 🎶")
-    st.sidebar.header("Upload Song List (CSV-like)")
+st.sidebar.header("Upload Song List (CSV-like)")
 
 uploaded_file = st.sidebar.file_uploader(
     "Upload file (Title,Artist)",
