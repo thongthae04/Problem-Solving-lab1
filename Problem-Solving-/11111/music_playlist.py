@@ -1,14 +1,18 @@
 # %%writefile app.py
+import io
 import streamlit as st
 
 st.title("Music Playlist")
 
 # --- Song Class ---
 class Song:
-    def __init__(self, title, artist):
+    
+    def __init__(self, title, artist, audio_file=None):
         self.title = title
         self.artist = artist
+        self.audio_file = audio_file
         self.next_song = None
+
 
     def __str__(self):
         return f"{self.title} by {self.artist}"
@@ -20,8 +24,9 @@ class MusicPlaylist:
         self.current_song = None
         self.length = 0
 
-    def add_song(self, title, artist):
-        new_song = Song(title, artist)
+    def add_song(self, title, artist, audio_file=None):
+        new_song = Song(title, artist, audio_file)
+
         if self.head is None:
             self.head = new_song
             self.current_song = new_song
@@ -49,8 +54,11 @@ class MusicPlaylist:
     def play_current_song(self):
         if self.current_song:
             st.info(f"Now playing: {self.current_song}")
+        if self.current_song.audio_file:
+            st.audio(self.current_song.audio_file)
         else:
-            st.warning("Playlist is empty or no song is selected to play.")
+            st.warning("Playlist is empty.")
+
 
     def next_song(self):
         if self.current_song and self.current_song.next_song:
@@ -132,7 +140,10 @@ if st.sidebar.button("Add Song to Playlist"):
 
 st.sidebar.markdown("--- 🎶")
 st.sidebar.header("Upload Audio File (Optional)")
-uploaded_file = st.sidebar.file_uploader("Choose a CSV file", type="csv")
+uploaded_file = st.sidebar.file_uploader(
+    "Upload audio file",
+    type=["mp3", "wav"]
+)
 if uploaded_file is not None:
     # Read the file line by line
     stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
